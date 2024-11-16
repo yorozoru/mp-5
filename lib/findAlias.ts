@@ -1,3 +1,4 @@
+"use server";
 import getCollection, {ALIAS_LIST} from "@/db";
 
 export default async function findAlias(inputString: string){
