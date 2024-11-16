@@ -1,7 +1,11 @@
 "use client";
 import { Button, TextField } from '@mui/material';
 import findAlias from '@/lib/findAlias';
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
+import createNewAlias from '@/lib/createNewAlias';
+import { isUrlReachable } from '@/lib/urlValidator';
+import { AliasProps } from '@/types';
+import PreviousAliases from './prevAlias';
 
 export default function NewAlias() {
 
@@ -11,30 +15,42 @@ export default function NewAlias() {
     const [usedAlias, setUsedAlias] = useState(false);
     const [validUrl, setValidUrl] = useState(true);
 
+    const [prevAlias, setPrevAlias] = useState<AliasProps[]>([]);
+
     async function aliasChecker() {
         const foundAlias = await findAlias(alias);
-        if (foundAlias) {
-            setUsedAlias(true);
-        } else {
+        if (foundAlias === null) {
             setUsedAlias(false);
+        } else {
+            setUsedAlias(true);
         }
     }
 
-    function validUrlWrapper(b: string) {
-        async function isValidUrl() {
-            try {
-                new URL(b);
-                const response = await fetch(b, { method: 'GET' });
-                return response.ok;
-            } catch (err) {
-                return false;
+    async function submitNewAlias (){
+        const isValid = await isUrlReachable(url);
+        setValidUrl(isValid);
+        if (isValid){
+            const a = await createNewAlias(alias, url);
+            if (a===null){
+                return false
             }
+            setPrevAlias([a, ...prevAlias]);
+            setValidUrl(false);
+            setUrl("");
+            setAlias("");
         }
-        isValidUrl().then(outcome => setValidUrl(outcome));
-    }
 
+    }
+    
+    function clearChange (value: SetStateAction<string>){
+        setValidUrl(true);
+        setUrl(value);
+    }
     return (
-        <form>
+        <div>
+        <form
+        onSubmit={(e) => {e.preventDefault(); submitNewAlias()}}
+        >
             <TextField
                 variant='filled'
                 sx={{ backgroundColor: "white", width: "100%" }}
@@ -50,7 +66,7 @@ export default function NewAlias() {
                 sx={{ backgroundColor: "white", width: "100%" }}
                 label='URL'
                 value={url}
-                onChange={(e) => setUrl(e.target.value)}
+                onChange={(e) => clearChange(e.target.value)}
                 error={!validUrl}
                 helperText={!validUrl ? "Invalid URL" : ""}
             />
@@ -63,5 +79,10 @@ export default function NewAlias() {
                 >Create</Button>
             </div>
         </form>
+        {prevAlias.map((obj) => (
+        <PreviousAliases key={obj.alias} {...obj} />
+        ))}
+        
+        </div>
     )
 }

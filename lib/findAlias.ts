@@ -6,11 +6,5 @@ export default async function findAlias(inputString: string){
 
     const data = await aliases.findOne({alias: inputString})
 
-    if (data === null){
-        return false
-    }
-    else{
-        return true
-    }
-
+    return data;
 }
