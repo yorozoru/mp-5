@@ -35,7 +35,6 @@ export default function NewAlias() {
                 return false
             }
             setPrevAlias([a, ...prevAlias]);
-            setValidUrl(false);
             setUrl("");
             setAlias("");
         }
@@ -51,9 +50,10 @@ export default function NewAlias() {
         <form
         onSubmit={(e) => {e.preventDefault(); submitNewAlias()}}
         >
+            <div className='flex flex-col justify-center items-center'>
             <TextField
                 variant='filled'
-                sx={{ backgroundColor: "white", width: "100%" }}
+                sx={{ backgroundColor: "white", width: "80%", borderRadius: "25px", marginTop: "20px"}}
                 label='Alias'
                 value={alias}
                 onBlur={() => aliasChecker()}
@@ -63,26 +63,28 @@ export default function NewAlias() {
             />
             <TextField
                 variant='filled'
-                sx={{ backgroundColor: "white", width: "100%" }}
+                sx={{ backgroundColor: "white", width: "80%", borderRadius: "25px"}}
                 label='URL'
                 value={url}
                 onChange={(e) => clearChange(e.target.value)}
                 error={!validUrl}
                 helperText={!validUrl ? "Invalid URL" : ""}
             />
-            <div className='justify-content'>
+            </div>
+            <div className='m-2 flex justify-center items-center'>
                 <Button
                     variant="contained"
-                    sx={{ width: "80px", color: "orange", backgroundColor: "white" }}
+                    sx={{ width: "80%", color: "white", backgroundColor: "#3b82f6" }}
                     type="submit"
                     disabled={alias.length === 0 || url.length === 0 || usedAlias || !validUrl}
                 >Create</Button>
             </div>
         </form>
+        <div className='flex flex-col items-center justify-center'>
         {prevAlias.map((obj) => (
         <PreviousAliases key={obj.alias} {...obj} />
         ))}
-        
         </div>
+    </div>
     )
 }
