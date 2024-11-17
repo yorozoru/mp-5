@@ -6,7 +6,7 @@ export default async function findAlias(inputString: string){
 
     const data = await aliases.findOne({alias: inputString})
 
-    // @ts-expect-error
+    // @ts-expect-error remove _id
     delete data?._id;
     return data;
 }
