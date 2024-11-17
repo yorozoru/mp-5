@@ -28,16 +28,17 @@ export default function NewAlias() {
 
     async function submitNewAlias (){
         const isValid = await isUrlReachable(url);
-        setValidUrl(isValid);
         if (isValid){
             const a = await createNewAlias(alias, url);
             if (a===null){
                 return false
             }
             setPrevAlias([a, ...prevAlias]);
+            setValidUrl(isValid);
             setUrl("");
             setAlias("");
         }
+        
 
     }
     

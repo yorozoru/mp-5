@@ -12,7 +12,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 export const metadata: Metadata = {
-  title: "CS391 URL Shortender",
+  title: "CS391 URL Shortener",
   description: "Shortens link according to user-provided alias",
 };
 export default function RootLayout({

@@ -14,6 +14,7 @@ export default async function createNewAlias(newAlias : string, newURL : string)
     if (!res.acknowledged){
         return null
     }
+
     return entry
     
 }
