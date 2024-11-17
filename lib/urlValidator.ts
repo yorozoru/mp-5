@@ -6,7 +6,7 @@ export async function isUrlReachable(url: string): Promise<boolean> {
             redirect: 'follow',
         });
         return response.ok || response.status === 301 || response.status === 302; //take care of any redirects
-    } catch (error) {
+    } catch (_error) {
         return false;
     }
 }
