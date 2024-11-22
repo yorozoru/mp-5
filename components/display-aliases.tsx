@@ -3,11 +3,11 @@ import { Button, TextField } from '@mui/material';
 import findAlias from '@/lib/findAlias';
 import { SetStateAction, useState } from 'react';
 import createNewAlias from '@/lib/createNewAlias';
-import { isUrlReachable } from '@/lib/urlValidator';
+import { isUrlReachable } from '@/lib/isUrlReachable';
 import { AliasProps } from '@/types';
-import PreviousAliases from './prevAlias';
+import PreviousAliases from './previous-aliases';
 
-export default function NewAlias() {
+export default function DisplayAliases() {
 
     const [alias, setAlias] = useState("");
     const [url, setUrl] = useState("");
